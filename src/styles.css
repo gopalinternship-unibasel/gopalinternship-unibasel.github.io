@@ -1,0 +1,613 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------ */
+/* Typeface: Bricolage Grotesque, variable (opsz 12–96, wdth 75–100,   */
+/* wght 200–800), self-hosted from /public/fonts.                      */
+/* ------------------------------------------------------------------ */
+@font-face {
+  font-family: "Bricolage Grotesque";
+  font-style: normal;
+  font-weight: 200 800;
+  font-stretch: 75% 100%;
+  font-display: swap;
+  src: url(/fonts/bricolage-latin.woff2) format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Bricolage Grotesque";
+  font-style: normal;
+  font-weight: 200 800;
+  font-stretch: 75% 100%;
+  font-display: swap;
+  src: url(/fonts/bricolage-latin-ext.woff2) format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+    U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+    U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* ------------------------------------------------------------------ */
+/* Design tokens (see DESIGN.md)                                       */
+/* ------------------------------------------------------------------ */
+@theme {
+  --font-sans: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+
+  --color-paper: #fbfbf8;
+  --color-zone: #eeeee8;
+  --color-ink: #000000;
+  --color-text: #262624;
+  --color-muted: #6b6b66;
+  --color-rule: #d8d8d0;
+  --color-accent: #2439e0;
+  --color-accent-deep: #1a2ab5;
+  --color-paper-on-ink: #f2f2ec;
+  --color-muted-on-ink: #a3a39c;
+
+  /* Type scale: 17px base, ratio about 1.25 up to 34, then larger jumps. */
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.45;
+  --text-base: 1.0625rem;
+  --text-base--line-height: 1.55;
+  --text-md: 1.3125rem;
+  --text-md--line-height: 1.4;
+  --text-lg: 1.625rem;
+  --text-lg--line-height: 1.25;
+  --text-xl: 2.125rem;
+  --text-xl--line-height: 1.12;
+  --text-2xl: 3rem;
+  --text-2xl--line-height: 1.02;
+  --text-3xl: clamp(2.75rem, 5.5vw, 4.75rem);
+  --text-3xl--line-height: 0.98;
+  --text-display: clamp(4.25rem, 14.5vw, 15rem);
+  --text-display--line-height: 0.86;
+
+  --spacing-gutter: clamp(1.25rem, 4vw, 4rem);
+  --radius-xs: 2px;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ------------------------------------------------------------------ */
+/* Base                                                                */
+/* ------------------------------------------------------------------ */
+html {
+  scroll-behavior: smooth;
+  background: var(--color-paper);
+  color-scheme: light;
+}
+body {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--text-base--line-height);
+  color: var(--color-text);
+  background: var(--color-paper);
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+::selection {
+  background: var(--color-accent);
+  color: #fff;
+}
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+section[id] {
+  scroll-margin-top: 4.5rem;
+}
+
+/* Display settings: condensed, heavy, tight. */
+.display {
+  font-weight: 760;
+  font-stretch: 86%;
+  letter-spacing: -0.028em;
+  color: var(--color-ink);
+  text-wrap: balance;
+}
+.headline {
+  font-weight: 640;
+  font-stretch: 92%;
+  letter-spacing: -0.022em;
+  color: var(--color-ink);
+  text-wrap: balance;
+}
+.title {
+  font-weight: 600;
+  font-stretch: 96%;
+  letter-spacing: -0.012em;
+  color: var(--color-ink);
+}
+.prose {
+  max-width: 62ch;
+  text-wrap: pretty;
+}
+.prose p + p {
+  margin-top: 1em;
+}
+
+/* Underlined text link: the line sits low and thickens on hover. */
+.link {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+  text-decoration-color: color-mix(in srgb, currentColor 45%, transparent);
+  transition:
+    text-decoration-color 180ms,
+    text-decoration-thickness 180ms,
+    color 180ms;
+}
+.link:hover {
+  text-decoration-color: currentColor;
+  text-decoration-thickness: 2px;
+}
+.link-accent {
+  color: var(--color-accent-deep);
+}
+
+/* Solid button */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: var(--color-ink);
+  color: var(--color-paper);
+  font-weight: 560;
+  font-size: var(--text-base);
+  line-height: 1;
+  padding: 1rem 1.4rem;
+  border-radius: var(--radius-xs);
+  transition:
+    background 180ms,
+    color 180ms,
+    transform 240ms var(--ease-out-expo);
+}
+.btn:hover {
+  background: var(--color-accent);
+  color: #fff;
+}
+.btn:active {
+  transform: translateY(1px);
+}
+.btn-light {
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+.btn-light:hover {
+  background: #fff;
+  color: var(--color-ink);
+}
+
+/* ------------------------------------------------------------------ */
+/* Hero reveal: lines clip up once on load.                            */
+/* ------------------------------------------------------------------ */
+.clip-line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+/* The resting state is visible; the animation only supplies the start, with
+   a backwards fill for the delay. If animations never run (an old browser,
+   a background tab that is painted later) the text is simply there. */
+.clip-line > span {
+  display: block;
+  animation: rise 1.1s var(--ease-out-expo) backwards;
+  animation-delay: var(--delay, 0ms);
+}
+@keyframes rise {
+  from {
+    transform: translateY(110%);
+  }
+  to {
+    transform: none;
+  }
+}
+.fade-in {
+  animation: appear 900ms var(--ease-out-expo) backwards;
+  animation-delay: var(--delay, 0ms);
+}
+@keyframes appear {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Project index rows: the whole row inverts on hover/focus.          */
+/* ------------------------------------------------------------------ */
+.project-row {
+  position: relative;
+  display: block;
+  color: inherit;
+  isolation: isolate;
+}
+.project-row::before {
+  content: "";
+  position: absolute;
+  inset: 0 calc(-1 * var(--row-bleed, 1rem));
+  background: var(--color-ink);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 360ms var(--ease-out-expo);
+  z-index: -1;
+  border-radius: var(--radius-xs);
+}
+.project-row:hover::before,
+.project-row:focus-visible::before,
+.project-row[data-active="true"]::before {
+  transform: scaleY(1);
+  transform-origin: top;
+}
+.project-row:hover,
+.project-row:focus-visible,
+.project-row[data-active="true"] {
+  color: var(--color-paper-on-ink);
+}
+.project-row:hover .title,
+.project-row:focus-visible .title,
+.project-row[data-active="true"] .title {
+  color: #fff;
+}
+.project-row:hover .muted-row,
+.project-row:focus-visible .muted-row,
+.project-row[data-active="true"] .muted-row {
+  color: var(--color-muted-on-ink);
+}
+.project-row:focus-visible {
+  outline: none;
+}
+
+/* ------------------------------------------------------------------ */
+/* Skills map                                                          */
+/* ------------------------------------------------------------------ */
+.skill-point {
+  cursor: default;
+  transition: opacity 220ms;
+}
+.skill-point circle {
+  fill: var(--color-paper);
+  stroke: var(--color-ink);
+  stroke-width: 1.5;
+  transition:
+    fill 160ms,
+    stroke 160ms;
+}
+.skill-point text {
+  fill: var(--color-text);
+  font-size: 15px;
+  font-weight: 500;
+  transition: fill 160ms;
+}
+.skill-point[data-on="true"] circle {
+  fill: var(--color-accent);
+  stroke: var(--color-accent);
+}
+.skill-point[data-on="true"] text {
+  fill: var(--color-ink);
+  font-weight: 650;
+}
+.skill-point[data-dim="true"] {
+  opacity: 0.28;
+}
+.skill-point:focus-visible {
+  outline: none;
+}
+.skill-point:focus-visible circle {
+  stroke: var(--color-accent);
+  stroke-width: 3;
+}
+.cluster-label {
+  fill: var(--color-ink);
+  font-size: 13px;
+  font-weight: 640;
+  letter-spacing: 0;
+}
+.cluster-hull {
+  fill: none;
+  stroke: var(--color-rule);
+  stroke-width: 1;
+  stroke-dasharray: 3 5;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.8rem;
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-xs);
+  font-size: var(--text-sm);
+  font-weight: 540;
+  color: var(--color-text);
+  background: transparent;
+  cursor: pointer;
+  transition:
+    border-color 160ms,
+    background 160ms,
+    color 160ms;
+}
+.chip:hover {
+  border-color: var(--color-ink);
+}
+.chip[aria-pressed="true"] {
+  background: var(--color-ink);
+  border-color: var(--color-ink);
+  color: var(--color-paper);
+}
+.chip[data-has="true"] {
+  border-color: var(--color-accent);
+  color: var(--color-accent-deep);
+}
+
+.skill-tag {
+  transition:
+    color 160ms,
+    background 160ms;
+  padding: 0.1rem 0.35rem;
+  margin-left: -0.35rem;
+  border-radius: var(--radius-xs);
+}
+.skill-tag[data-on="true"] {
+  background: var(--color-accent);
+  color: #fff;
+}
+.skill-tag[data-dim="true"] {
+  color: var(--color-muted);
+}
+
+/* ------------------------------------------------------------------ */
+/* Diagrams                                                            */
+/* ------------------------------------------------------------------ */
+.diagram {
+  width: 100%;
+  height: auto;
+  display: block;
+  font-family: var(--font-sans);
+}
+.diagram .box {
+  fill: var(--color-paper);
+  stroke: var(--color-ink);
+  stroke-width: 1.5;
+}
+.diagram .box-ink {
+  fill: var(--color-ink);
+  stroke: var(--color-ink);
+  stroke-width: 1.5;
+}
+.diagram .box-accent {
+  fill: var(--color-accent);
+  stroke: var(--color-accent);
+}
+.diagram .line {
+  fill: none;
+  stroke: var(--color-ink);
+  stroke-width: 1.5;
+}
+.diagram .line-soft {
+  fill: none;
+  stroke: var(--color-ink);
+  stroke-width: 1.2;
+  stroke-dasharray: 3 4;
+}
+.diagram .lbl {
+  fill: var(--color-ink);
+  font-size: 15px;
+  font-weight: 600;
+}
+.diagram .lbl-sm {
+  fill: var(--color-muted);
+  font-size: 12px;
+  font-weight: 500;
+}
+.diagram .lbl-inv {
+  fill: #fff;
+  font-size: 14px;
+  font-weight: 600;
+}
+.diagram .fill-accent {
+  fill: var(--color-accent);
+}
+.diagram .fill-zone {
+  fill: var(--color-zone);
+}
+.diagram-frame {
+  background: var(--color-paper);
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-xs);
+}
+
+/* A line drawn through the highlighted skills, left to right. */
+.constellation,
+.constellation-still {
+  fill: none;
+  stroke: var(--color-accent);
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+  opacity: 0.85;
+}
+.constellation {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw-line 1.2s var(--ease-out-expo) forwards;
+}
+@keyframes draw-line {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* View toggle                                                         */
+/* ------------------------------------------------------------------ */
+.view-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.45rem 0.75rem;
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-xs);
+  font-size: var(--text-sm);
+  font-weight: 560;
+  color: var(--color-text);
+  background: transparent;
+  cursor: pointer;
+  transition:
+    border-color 160ms,
+    color 160ms;
+}
+.view-toggle:hover {
+  border-color: var(--color-ink);
+  color: var(--color-ink);
+}
+.view-toggle .dot {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 1px;
+  border: 1.5px solid currentColor;
+  transition:
+    background 160ms,
+    border-color 160ms;
+}
+.view-toggle[aria-pressed="true"] .dot {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+}
+.mobile-menu {
+  background: #000;
+  color: #f2f2ec;
+  --color-paper: #000;
+  --color-ink: #fff;
+  --color-text: #f2f2ec;
+  --color-muted: #a3a39c;
+  --color-rule: rgba(255, 255, 255, 0.3);
+}
+
+/* ------------------------------------------------------------------ */
+/* Immersive view: the same components, recoloured section by section  */
+/* by swapping the token variables. Each section paints its own paper. */
+/* ------------------------------------------------------------------ */
+section[id],
+.site-header {
+  transition:
+    background-color 450ms var(--ease-out-expo),
+    color 450ms var(--ease-out-expo);
+}
+html[data-view="immersive"],
+[data-view="immersive"] body {
+  background: #000;
+}
+[data-view="immersive"] .site-header,
+[data-view="immersive"] #hero,
+[data-view="immersive"] #skills {
+  --color-paper: #000;
+  --color-zone: #161615;
+  --color-ink: #ffffff;
+  --color-text: #f2f2ec;
+  --color-muted: #a3a39c;
+  --color-rule: rgba(255, 255, 255, 0.28);
+  --color-accent-deep: #8c9bff;
+}
+[data-view="immersive"] #about {
+  --color-paper: #2439e0;
+  --color-zone: #1a2ab5;
+  --color-ink: #ffffff;
+  --color-text: #eef0ff;
+  --color-muted: #c9cfff;
+  --color-rule: rgba(255, 255, 255, 0.35);
+  --color-accent: #ffffff;
+  --color-accent-deep: #ffffff;
+}
+[data-view="immersive"] #contact {
+  --color-ink: #2439e0;
+  --color-paper-on-ink: #ffffff;
+  --color-muted-on-ink: #d6daff;
+  --color-accent: #000000;
+}
+[data-view="immersive"] #hero .display {
+  text-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
+}
+
+/* Project spreads: full-screen, stacking on scroll from lg up. */
+.spread {
+  position: relative;
+  background: var(--color-paper);
+  border-top: 1px solid var(--color-rule);
+  padding: 3rem 0;
+}
+.spread[data-tone="zone"] {
+  --color-paper: #eeeee8;
+}
+.spread[data-tone="ink"] {
+  --color-paper: #000;
+  --color-zone: #161615;
+  --color-ink: #fff;
+  --color-text: #f2f2ec;
+  --color-muted: #a3a39c;
+  --color-rule: rgba(255, 255, 255, 0.28);
+  --color-accent-deep: #8c9bff;
+}
+/* The ink token is white here, so a solid "ink" block would turn white and
+   hide its white label. Keep it a dark block with a white outline instead. */
+.spread[data-tone="ink"] .diagram .box-ink {
+  fill: #2a2a28;
+  stroke: var(--color-ink);
+}
+@media (min-width: 1024px) {
+  .spread {
+    position: sticky;
+    top: 4rem;
+    min-height: calc(100svh - 4rem);
+    display: flex;
+    align-items: center;
+    padding: 4rem 0;
+    box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.12);
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Page transitions (View Transitions API, via TanStack Router)        */
+/* ------------------------------------------------------------------ */
+::view-transition-old(root) {
+  animation: 180ms ease-out both vt-out;
+}
+::view-transition-new(root) {
+  animation: 320ms var(--ease-out-expo) both vt-in;
+}
+@keyframes vt-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes vt-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Reduced motion: everything lands in its final state immediately.    */
+/* ------------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}

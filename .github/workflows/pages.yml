@@ -1,0 +1,63 @@
+# Builds the site on every push to main and publishes the prerendered pages to GitHub Pages.
+# A failing build or type check stops the deploy, so the live site never changes to a broken version.
+# One-time setting (already made): Settings > Pages > Build and deployment > Source: GitHub Actions.
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Never cancel a deploy that is running; a newer run waits for it.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      # The build also writes src/routeTree.gen.ts, which the type check needs.
+      - run: npm run build
+      - run: npm run typecheck
+      - name: Check that every page was prerendered
+        run: |
+          for f in index.html projects/index.html projects/seismic-streaming/index.html \
+                   projects/ai-research-assistant/index.html projects/lifeops-ai/index.html \
+                   projects/yolo-mri-segmentation/index.html projects/vr-pirate-ship-escape/index.html; do
+            test -s ".output/public/$f" || { echo "missing $f"; exit 1; }
+          done
+      - uses: actions/configure-pages@v6
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: .output/public
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url || steps.deployment-retry.outputs.page_url }}
+    steps:
+      # The deploy step sometimes fails with 'No artifacts named "github-pages" were found' right
+      # after a successful upload; it is tried once more after a minute.
+      - id: deployment
+        continue-on-error: true
+        uses: actions/deploy-pages@v5
+      - name: Wait before trying the deploy again
+        if: steps.deployment.outcome == 'failure'
+        run: sleep 60
+      - id: deployment-retry
+        if: steps.deployment.outcome == 'failure'
+        uses: actions/deploy-pages@v5

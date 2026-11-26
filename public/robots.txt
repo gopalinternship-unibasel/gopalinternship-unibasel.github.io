@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://gopalinternship-unibasel.github.io/sitemap.xml
