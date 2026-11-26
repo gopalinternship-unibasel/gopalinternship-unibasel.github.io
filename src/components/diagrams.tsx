@@ -270,62 +270,43 @@ function Mri() {
 }
 
 function Vr() {
-  const m = 'url(#arr-vr)'
-  const dim = { fill: '#cfcfc8' }
   return (
-    <svg {...svgProps} aria-label="Schematic cross-section of a pirate ship with four rooms on two decks. The player starts in a prison cell inside the prison room (broom and key, then a number lock with a logbook clue), goes on to the storage room, stacks crates up through a hole in the ceiling into the cannon room, fires a cannon through the wall into the captain's room, and escapes through a door hidden behind a bookshelf whose lock is coded by a blinking lantern.">
-      <Arrow id="arr-vr" />
-      {/* Mast and flag */}
-      <path d="M330 112 L330 22" className="line" />
-      <path d="M330 22 L376 32 L330 42 Z" className="box-ink" />
-      {/* Hull and decks */}
-      <path d="M30 112 L570 112 L522 330 L78 330 Z" className="box" />
-      <path d="M54 222 L546 222" className="line-soft" />
-      <rect x="462" y="218" width="36" height="8" className="fill-zone" />
+    <svg {...svgProps} aria-label="Side view of a pirate ship with a mast, sail and flag. Four numbered puzzle rooms on the deck (prison, storage room, cannon room, captain's room) are joined by a dotted path that ends at the exit.">
+      {/* Hull */}
+      <path d="M50 236 L560 236 L510 320 L110 320 Z" className="box" />
+      <path d="M50 236 L40 200 L120 236" className="box" />
+      <path d="M560 236 L590 190 L520 236" className="box" />
+      <path d="M110 320 L510 320" className="line" />
+      {/* Mast, sail, flag */}
+      <path d="M300 236 L300 50" className="line" />
+      <path d="M300 76 L300 176 L420 176 Q380 126 420 76 Z" className="box" />
+      <path d="M300 50 L352 62 L300 74 Z" className="fill-accent" />
+      {/* Portholes */}
+      {[160, 230, 370, 440].map((x) => (
+        <circle key={x} cx={x} cy="280" r="7" className="box" />
+      ))}
+      {/* Puzzle rooms, in the order the player escapes through them, and the path */}
+      {[
+        [130, 'Prison'],
+        [220, 'Storage'],
+        [360, 'Cannons'],
+        [440, 'Captain'],
+      ].map(([x, label], i) => (
+        <g key={label as string}>
+          <rect x={(x as number) - 16} y="204" width="32" height="32" rx="2" className="box-ink" />
+          <text x={(x as number) - 5} y="226" className="lbl-inv">
+            {i + 1}
+          </text>
+          <text x={(x as number) - 16} y="196" className="lbl-sm">
+            {label}
+          </text>
+        </g>
+      ))}
+      <path d="M146 220 L204 220 M236 220 L344 220 M376 220 L424 220 M456 220 L480 220" className="line-soft" />
+      <rect x="480" y="200" width="70" height="36" rx="2" className="box-accent" />
+      <text x="496" y="224" className="lbl-inv">Exit</text>
 
-      {/* Upper deck */}
-      <rect x="70" y="124" width="220" height="88" rx="2" className="box" />
-      <text x="82" y="146" className="lbl">Captain&apos;s room</text>
-      <text x="82" y="168" className="lbl-sm">a bookshelf hides the door;</text>
-      <text x="82" y="184" className="lbl-sm">a lantern blinks the code</text>
-      <rect x="300" y="124" width="230" height="88" rx="2" className="box" />
-      <text x="312" y="146" className="lbl">Cannon room</text>
-      <text x="312" y="168" className="lbl-sm">a torch fires the cannon</text>
-      <text x="312" y="184" className="lbl-sm">through the wall</text>
-
-      {/* Lower deck */}
-      <rect x="92" y="232" width="198" height="86" rx="2" className="box" />
-      <rect x="100" y="242" width="82" height="66" rx="2" className="box-ink" />
-      <text x="110" y="264" className="lbl-inv">Cell</text>
-      <text x="110" y="282" className="lbl-sm" style={dim}>broom</text>
-      <text x="110" y="298" className="lbl-sm" style={dim}>and key</text>
-      <text x="192" y="254" className="lbl">Prison room</text>
-      <text x="192" y="276" className="lbl-sm">logbook clue,</text>
-      <text x="192" y="292" className="lbl-sm">number lock</text>
-      <rect x="300" y="232" width="206" height="86" rx="2" className="box" />
-      <text x="312" y="254" className="lbl">Storage room</text>
-      <text x="312" y="276" className="lbl-sm">stack crates up</text>
-      <text x="312" y="292" className="lbl-sm">to the hole above</text>
-      {/* Crates */}
-      <rect x="452" y="298" width="18" height="18" className="box" />
-      <rect x="470" y="298" width="18" height="18" className="box" />
-      <rect x="470" y="280" width="18" height="18" className="box" />
-
-      {/* Exit */}
-      <rect x="60" y="56" width="112" height="36" rx="2" className="box-accent" />
-      <text x="74" y="80" className="lbl-inv">Escaped</text>
-
-      {/* The way out */}
-      <g style={{ color: 'var(--color-ink)' }}>
-        <path d="M290 302 L314 302" className="line" markerEnd={m} />
-        <path d="M480 276 L480 196" className="line" markerEnd={m} />
-        <path d="M318 200 L262 200" className="line" markerEnd={m} />
-        <path d="M116 124 L116 92" className="line" markerEnd={m} />
-      </g>
-      <text x="486" y="208" className="lbl-sm">hole</text>
-
-      <rect x="20" y="342" width="560" height="24" rx="2" className="fill-zone" />
-      <text x="32" y="358" className="lbl-sm">Godot 4.2, XR Tools and Jolt physics. Models from Blender and free libraries.</text>
+      <text x="50" y="358" className="lbl-sm">Godot, VR mechanics, four rooms of puzzles, 3D models, lighting and sound. Jira and Git.</text>
     </svg>
   )
 }

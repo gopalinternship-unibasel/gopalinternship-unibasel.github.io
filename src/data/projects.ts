@@ -178,41 +178,26 @@ export const projects: Project[] = [
   {
     slug: 'vr-pirate-ship-escape',
     roles: ['software'],
-    title: 'Escaped: a VR escape room on a pirate ship',
-    tagline:
-      'A single-player escape room in virtual reality: locked in a prison cell on a pirate ship, the player works through four rooms of hands-on puzzles to get out.',
-    context: 'ICT project course (DAT215), University of Agder, Grimstad',
+    title: 'VR pirate-ship escape game',
+    tagline: 'An escape room on a pirate ship, built in Godot for VR by an agile team.',
+    context: 'ICT project course, University of Agder',
     year: '2024',
     team: 'Group project',
-    myPart:
-      'One of five. My role, as the report lists it: researching 3D Blender models and importing them. Every member was also available to assist on other tasks.',
     summary:
-      'The player starts in a prison cell on a pirate ship and escapes room by room by handling objects and reading clues: a broom, a combination lock, stacked crates, a cannon, a movable bookshelf and a blinking lantern. Built in Godot 4.2 for the Oculus Rift S and Meta Quest 2.',
+      'An immersive escape game: the player starts locked in a prison cell on a pirate ship and solves a chain of puzzles through four rooms to get off it. Built in Godot with VR mechanics, puzzle logic, 3D models, lighting and sound.',
     description: [
-      'Escaped is a pirate-themed escape room for one player in VR, made by a team of five in the ICT project course at the University of Agder in spring 2024, with access to the university’s Future Interaction Lab. It was made for the Oculus Rift S and Meta Quest 2: the player moves with the controllers and sees only their own hands.',
-      'The player reaches through the bars of a prison cell for a broom, knocks a key off the wall and sweeps it into reach. A riddle in the captain’s logbook on a table gives the four digits for the combination lock of the prison room. The storage room has no door, so crates have to be stacked into a staircase up to a hole in the ceiling. In the cannon room a torch from the wall fires the one loaded cannon, which blasts a way through the wall. In the captain’s room a bookshelf hides the last door, whose lock opens with the digits a lantern blinks like Morse code. A menu on the wrist offers three hints per puzzle, and the final screen shows how long the escape took.',
-      '3D models came from free online libraries or were made in Blender, then textured and brought into Godot 4.2, where they got collision shapes and game logic in GDScript with Godot XR Tools; Godot’s own physics was replaced by Jolt after objects fell through surfaces. Static lighting is baked (VoxelGI replaced SDFGI, which left the rooms too dark), and torches and lanterns can be carried as moving lights. The game loads in 4.45 seconds and reached 80 frames per second on the VR headset. Seven UiA students tested it: recorded play times ran from about 11 minutes to an hour and a half, and four of the six who rated it gave 8 out of 10. Two stopped early because of motion sickness. What the team saw in the tests added a second shelf to make the crate puzzle easier and fixed the cannons in place.',
+      'The game runs on core VR mechanics built in Godot 4.2 with Godot XR Tools: grabbing and using objects, moving around the ship with the controllers and interacting with the puzzle elements that gate the way out. A broom reaches the key of the prison cell, a logbook riddle opens a combination lock, crates are stacked up to a hole in the ceiling, a torch fires a cannon through a wall, and a lantern blinks the code for the last door. 3D models from Blender and free libraries, baked lighting with carried torches and lanterns, and sound effects carry the setting.',
+      'The team of five worked in an agile way, with weekly stand-ups, Jira and Git, and tested the game with seven students, whose play led to changes in two of the puzzles.',
     ],
     built: [
-      'Single-player VR escape room in Godot 4.2 with GDScript and Godot XR Tools, for the Oculus Rift S and Meta Quest 2.',
-      'Four rooms of physical puzzles: broom and key, a combination lock with a logbook clue, a staircase of crates, a cannon fired with a torch, and a lantern that blinks the last code.',
-      '3D models from free libraries or made in Blender, imported into Godot with simplified collision shapes, and Jolt in place of Godot’s built-in physics.',
-      'Baked static lighting with carried torches and lanterns, a wrist menu with hints, a 4.45-second load and 80 frames per second.',
-      'User tests with seven students that reshaped two puzzles; teamwork with Jira, weekly stand-ups and Git on Bitbucket.',
+      'Immersive VR pirate-ship escape game developed in Godot 4.2 for the Oculus Rift S and Meta Quest 2.',
+      'Core VR mechanics, puzzles across four rooms, 3D models from Blender and free libraries, lighting and sound.',
+      'Jira and Git in an agile team environment.',
     ],
-    stack: ['Godot 4.2', 'GDScript', 'Godot XR Tools', 'Jolt physics', 'Blender', 'Oculus Rift S / Meta Quest 2', 'Jira', 'Bitbucket'],
-    skills: ['blender', 'jira', 'git'],
+    stack: ['Godot', 'VR', 'Blender', 'Jira', 'Git'],
+    skills: ['godot', 'jira', 'git'],
     repo: null,
-    imagesTitle: 'In the game',
-    images: [
-      {
-        src: '/projects/vr-escape-rooms.jpg',
-        alt: 'Five in-game screenshots, one per stage: the prison cell with the in-game menu on the player’s wrist, an open logbook and a lantern on a table, wooden crates and a lantern on the floor of the storage room with the opening in the ceiling above, the player’s hand holding a torch to a cannon, and a lantern on the captain’s desk.',
-        caption: 'Screenshots from the game, one per stage, from the project report.',
-        width: 1896,
-        height: 508,
-      },
-    ],
+    images: [],
     diagram: 'vr',
   },
 ]
