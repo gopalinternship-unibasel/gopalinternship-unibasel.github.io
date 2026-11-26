@@ -40,15 +40,16 @@ const svgProps = {
 function Seismic() {
   const m = 'url(#arr-seismic)'
   return (
-    <svg {...svgProps} aria-label="Pipeline: USGS feed and a replay producer publish to Kafka; Spark Structured Streaming consumes, deduplicates and runs analytics; results land in PostgreSQL and a Dash dashboard.">
+    <svg {...svgProps} aria-label="Pipeline: a live producer polling the USGS feed and a replay producer of synthetic events publish to Kafka; Spark Structured Streaming consumes, deduplicates and runs analytics; results land in PostgreSQL and a Dash dashboard; a scheduled GitHub Actions run publishes a static copy to GitHub Pages.">
+
       <Arrow id="arr-seismic" />
       {/* Sources */}
-      <rect x="20" y="96" width="112" height="52" rx="2" className="box" />
-      <text x="32" y="118" className="lbl">USGS feed</text>
-      <text x="32" y="136" className="lbl-sm">live, GeoJSON</text>
-      <rect x="20" y="186" width="112" height="52" rx="2" className="box" strokeDasharray="3 4" />
-      <text x="32" y="208" className="lbl">Replay producer</text>
-      <text x="32" y="226" className="lbl-sm">prepared events</text>
+      <rect x="16" y="96" width="140" height="52" rx="2" className="box" />
+      <text x="28" y="118" className="lbl">USGS feed</text>
+      <text x="28" y="136" className="lbl-sm">live, GeoJSON</text>
+      <rect x="16" y="186" width="140" height="52" rx="2" className="box" strokeDasharray="3 4" />
+      <text x="28" y="208" className="lbl">Replay producer</text>
+      <text x="28" y="226" className="lbl-sm">synthetic events</text>
 
       {/* Kafka */}
       <rect x="178" y="118" width="110" height="90" rx="2" className="box-ink" />
@@ -59,7 +60,7 @@ function Seismic() {
       <text x="178" y="226" className="lbl-sm">topic, 3 partitions</text>
 
       {/* Spark */}
-      <rect x="322" y="98" width="156" height="130" rx="2" className="box" />
+      <rect x="322" y="98" width="166" height="130" rx="2" className="box" />
       <text x="334" y="122" className="lbl">Spark</text>
       <text x="334" y="140" className="lbl-sm">Structured Streaming</text>
       <text x="334" y="166" className="lbl-sm">parse, dedupe, enrich</text>
@@ -70,7 +71,7 @@ function Seismic() {
       {/* PostgreSQL */}
       <path d="M506 104 a37 10 0 0 1 74 0 v62 a37 10 0 0 1 -74 0 z" className="box" />
       <ellipse cx="543" cy="104" rx="37" ry="10" className="box" />
-      <text x="517" y="146" className="lbl">Postgres</text>
+      <text x="543" y="146" className="lbl" textAnchor="middle" style={{ fontSize: 13 }}>Postgres</text>
 
       {/* Dashboard */}
       <rect x="462" y="236" width="118" height="88" rx="2" className="box" />
@@ -81,17 +82,23 @@ function Seismic() {
         <circle cx="552" cy="300" r="2.5" fill="var(--color-ink)" />
         <circle cx="538" cy="286" r="7" className="fill-accent" />
         <circle cx="530" cy="306" r="4" className="fill-accent" />
-        <text x="474" y="318" className="lbl-sm">cells and forecasts</text>
+        <text x="474" y="318" className="lbl-sm">cells, forecasts</text>
       </g>
 
       {/* Flows */}
       <g style={{ color: 'var(--color-ink)' }}>
-        <path d="M132 122 L178 150" className="line" markerEnd={m} />
-        <path d="M132 212 L178 184" className="line-soft" markerEnd={m} />
+        <path d="M156 122 L178 140" className="line" markerEnd={m} />
+        <path d="M156 212 L178 194" className="line-soft" markerEnd={m} />
         <path d="M288 163 L322 163" className="line" markerEnd={m} />
-        <path d="M478 140 L506 132" className="line" markerEnd={m} />
+        <path d="M488 140 L506 132" className="line" markerEnd={m} />
         <path d="M543 176 L543 236" className="line" markerEnd={m} />
+        <path d="M462 292 L440 292" className="line-soft" markerEnd={m} />
       </g>
+
+      {/* The public page: a static copy */}
+      <rect x="290" y="270" width="150" height="44" rx="2" className="box" strokeDasharray="3 4" />
+      <text x="302" y="288" className="lbl-sm" style={{ fill: 'var(--color-ink)' }}>GitHub Pages</text>
+      <text x="302" y="304" className="lbl-sm">static copy, via Actions</text>
 
       {/* Compose footer */}
       <rect x="20" y="340" width="560" height="24" rx="2" className="fill-zone" />
@@ -102,12 +109,17 @@ function Seismic() {
 
 function Research() {
   const m = 'url(#arr-research)'
-  const guards = ['Quality', 'Feasibility', 'Safety', 'Citations', 'Reagents']
+  const checks = ['Citations', 'Budget, reagents', 'Reviewer critique']
   return (
-    <svg {...svgProps} aria-label="Flow: a hypothesis is checked against Semantic Scholar, OpenAlex and PubMed, passes a novelty check and five validation guards, and becomes an experiment plan with protocol, materials, budget and success criteria.">
+    <svg {...svgProps} aria-label="Flow: a hypothesis passes rule-based feasibility tests and an AI quality gate, is searched in Semantic Scholar, OpenAlex and PubMed and gets a novelty verdict with citations; a plan is generated with a safety screen in the prompt, its citations, budget and reagents are checked, a second AI call reviews it as a critic, and the result is an experiment plan with protocol, materials, budget and success criteria.">
       <Arrow id="arr-research" />
-      <rect x="40" y="24" width="520" height="44" rx="2" className="box" />
-      <text x="54" y="51" className="lbl">Hypothesis, in plain language</text>
+      <rect x="40" y="14" width="520" height="34" rx="2" className="box" />
+      <text x="54" y="36" className="lbl">Hypothesis, in plain language</text>
+
+      <rect x="150" y="66" width="300" height="30" rx="2" className="box" />
+      <text x="164" y="86" className="lbl-sm" style={{ fill: 'var(--color-ink)' }}>
+        Gate: feasibility rules, AI quality check
+      </text>
 
       {[
         ['Semantic Scholar', 40],
@@ -115,39 +127,46 @@ function Research() {
         ['PubMed', 400],
       ].map(([label, x]) => (
         <g key={label as string}>
-          <rect x={x as number} y="112" width="160" height="40" rx="2" className="box" />
-          <text x={(x as number) + 12} y="137" className="lbl">
+          <rect x={x as number} y="116" width="160" height="34" rx="2" className="box" />
+          <text x={(x as number) + 12} y="138" className="lbl">
             {label}
           </text>
         </g>
       ))}
 
-      <rect x="200" y="196" width="200" height="40" rx="2" className="box-ink" />
-      <text x="214" y="221" className="lbl-inv">Novelty check, with citations</text>
+      <rect x="170" y="172" width="260" height="34" rx="2" className="box-ink" />
+      <text x="184" y="194" className="lbl-inv">Novelty verdict, with citations</text>
 
-      {guards.map((g, i) => (
-        <g key={g}>
-          <rect x={40 + i * 106} y="272" width="96" height="30" rx="2" className="box" />
-          <text x={52 + i * 106} y="292" className="lbl-sm" style={{ fill: 'var(--color-ink)' }}>
-            {g}
+      <rect x="110" y="226" width="380" height="34" rx="2" className="box" />
+      <text x="124" y="248" className="lbl">Plan generation</text>
+      <text x="262" y="248" className="lbl-sm">safety screen in the prompt</text>
+
+      {checks.map((c, i) => (
+        <g key={c}>
+          <rect x={40 + i * 180} y="280" width="160" height="28" rx="2" className="box" />
+          <text x={52 + i * 180} y="299" className="lbl-sm" style={{ fill: 'var(--color-ink)' }}>
+            {c}
           </text>
         </g>
       ))}
 
-      <rect x="40" y="330" width="520" height="40" rx="2" className="box-accent" />
-      <text x="54" y="355" className="lbl-inv">Experiment plan: protocol, materials, budget, success criteria</text>
+      <rect x="40" y="328" width="520" height="38" rx="2" className="box-accent" />
+      <text x="54" y="352" className="lbl-inv">Experiment plan: protocol, materials, budget, success criteria</text>
 
       <g style={{ color: 'var(--color-ink)' }}>
-        <path d="M300 68 L120 112" className="line" markerEnd={m} />
-        <path d="M300 68 L300 112" className="line" markerEnd={m} />
-        <path d="M300 68 L480 112" className="line" markerEnd={m} />
-        <path d="M120 152 L250 196" className="line-soft" markerEnd={m} />
-        <path d="M300 152 L300 196" className="line-soft" markerEnd={m} />
-        <path d="M480 152 L350 196" className="line-soft" markerEnd={m} />
-        <path d="M300 236 L300 272" className="line" markerEnd={m} />
-        <path d="M300 302 L300 330" className="line" markerEnd={m} />
+        <path d="M300 48 L300 66" className="line" markerEnd={m} />
+        <path d="M300 96 L120 116" className="line" markerEnd={m} />
+        <path d="M300 96 L300 116" className="line" markerEnd={m} />
+        <path d="M300 96 L480 116" className="line" markerEnd={m} />
+        <path d="M120 150 L230 172" className="line-soft" markerEnd={m} />
+        <path d="M300 150 L300 172" className="line-soft" markerEnd={m} />
+        <path d="M480 150 L370 172" className="line-soft" markerEnd={m} />
+        <path d="M300 206 L300 226" className="line" markerEnd={m} />
+        <path d="M200 260 L120 280" className="line" markerEnd={m} />
+        <path d="M300 260 L300 280" className="line" markerEnd={m} />
+        <path d="M400 260 L480 280" className="line" markerEnd={m} />
+        <path d="M300 308 L300 328" className="line" markerEnd={m} />
       </g>
-      <text x="420" y="258" className="lbl-sm">validation guards</text>
     </svg>
   )
 }
@@ -155,9 +174,9 @@ function Research() {
 function LifeOps() {
   const m = 'url(#arr-lifeops)'
   const inputs = ['Inbox', 'Calendar', 'A messy note']
-  const outputs = ['Tasks, prioritised', 'Week plan', 'Calendar blocks', 'Email drafts']
+  const outputs = ['Ranked tasks', 'Week plan', 'Calendar blocks', 'Email drafts']
   return (
-    <svg {...svgProps} aria-label="Flow: inbox, calendar and a free-form note go into a planner that produces prioritised tasks, a week plan, calendar blocks and email drafts; an approval gate sits between the planner and anything that touches the calendar or mail.">
+    <svg {...svgProps} aria-label="Flow: inbox, calendar and a free-form note go into a planner that produces prioritised tasks, a week plan, calendar blocks and email drafts; an approval gate sits between the planner and anything that touches the calendar or mail. The public demo uses a sample inbox and calendar, and emails are only ever drafted, never sent.">
       <Arrow id="arr-lifeops" />
       {inputs.map((label, i) => (
         <g key={label}>
@@ -193,15 +212,15 @@ function LifeOps() {
         <path d="M152 157 L212 157" className="line" markerEnd={m} />
         <path d="M152 223 L212 194" className="line" markerEnd={m} />
         <path d="M388 157 L414 157" className="line" markerEnd={m} />
-        <path d="M448 120 L472 70" className="line" markerEnd={m} />
+        <path d="M388 98 L472 64" className="line" markerEnd={m} />
         <path d="M448 145 L472 125" className="line" markerEnd={m} />
         <path d="M448 170 L472 185" className="line" markerEnd={m} />
         <path d="M448 195 L472 240" className="line" markerEnd={m} />
         <path d="M88 290 L88 180" className="line-soft" markerEnd={m} />
       </g>
-      <text x="24" y="312" className="lbl-sm">Google Calendar and Gmail, via OAuth</text>
+      <text x="24" y="312" className="lbl-sm">Sample inbox and calendar, or Google via OAuth</text>
       <rect x="24" y="340" width="556" height="24" rx="2" className="fill-zone" />
-      <text x="36" y="356" className="lbl-sm">Emails stay drafts. Nothing is sent, moved or cancelled without a yes.</text>
+      <text x="36" y="356" className="lbl-sm">Emails are only drafted, never sent. Calendar changes wait for your yes.</text>
     </svg>
   )
 }
@@ -251,42 +270,62 @@ function Mri() {
 }
 
 function Vr() {
+  const m = 'url(#arr-vr)'
+  const dim = { fill: '#cfcfc8' }
   return (
-    <svg {...svgProps} aria-label="Side view of a pirate ship with a mast, sail and flag. Three numbered puzzle stations on the deck are joined by a dotted path that ends at the exit.">
-      {/* Hull */}
-      <path d="M50 236 L560 236 L510 320 L110 320 Z" className="box" />
-      <path d="M50 236 L40 200 L120 236" className="box" />
-      <path d="M560 236 L590 190 L520 236" className="box" />
-      <path d="M110 320 L510 320" className="line" />
-      {/* Mast, sail, flag */}
-      <path d="M300 236 L300 50" className="line" />
-      <path d="M300 76 L300 176 L420 176 Q380 126 420 76 Z" className="box" />
-      <path d="M300 50 L352 62 L300 74 Z" className="fill-accent" />
-      {/* Portholes */}
-      {[160, 230, 370, 440].map((x) => (
-        <circle key={x} cx={x} cy="280" r="7" className="box" />
-      ))}
-      {/* Puzzle stations and path */}
-      {[
-        [130, 'Galley'],
-        [250, 'Cabin'],
-        [390, 'Hold'],
-      ].map(([x, label], i) => (
-        <g key={label as string}>
-          <rect x={(x as number) - 16} y="204" width="32" height="32" rx="2" className="box-ink" />
-          <text x={(x as number) - 5} y="226" className="lbl-inv">
-            {i + 1}
-          </text>
-          <text x={(x as number) - 16} y="196" className="lbl-sm">
-            {label}
-          </text>
-        </g>
-      ))}
-      <path d="M146 220 L234 220 M266 220 L374 220 M406 220 L470 220" className="line-soft" />
-      <rect x="470" y="200" width="70" height="36" rx="2" className="box-accent" />
-      <text x="486" y="224" className="lbl-inv">Exit</text>
+    <svg {...svgProps} aria-label="Schematic cross-section of a pirate ship with four rooms on two decks. The player starts in a prison cell inside the prison room (broom and key, then a number lock with a logbook clue), goes on to the storage room, stacks crates up through a hole in the ceiling into the cannon room, fires a cannon through the wall into the captain's room, and escapes through a door hidden behind a bookshelf whose lock is coded by a blinking lantern.">
+      <Arrow id="arr-vr" />
+      {/* Mast and flag */}
+      <path d="M330 112 L330 22" className="line" />
+      <path d="M330 22 L376 32 L330 42 Z" className="box-ink" />
+      {/* Hull and decks */}
+      <path d="M30 112 L570 112 L522 330 L78 330 Z" className="box" />
+      <path d="M54 222 L546 222" className="line-soft" />
+      <rect x="462" y="218" width="36" height="8" className="fill-zone" />
 
-      <text x="50" y="358" className="lbl-sm">Godot, VR mechanics, puzzle chain, 3D assets, weather and sound. Jira and Git for the team.</text>
+      {/* Upper deck */}
+      <rect x="70" y="124" width="220" height="88" rx="2" className="box" />
+      <text x="82" y="146" className="lbl">Captain&apos;s room</text>
+      <text x="82" y="168" className="lbl-sm">a bookshelf hides the door;</text>
+      <text x="82" y="184" className="lbl-sm">a lantern blinks the code</text>
+      <rect x="300" y="124" width="230" height="88" rx="2" className="box" />
+      <text x="312" y="146" className="lbl">Cannon room</text>
+      <text x="312" y="168" className="lbl-sm">a torch fires the cannon</text>
+      <text x="312" y="184" className="lbl-sm">through the wall</text>
+
+      {/* Lower deck */}
+      <rect x="92" y="232" width="198" height="86" rx="2" className="box" />
+      <rect x="100" y="242" width="82" height="66" rx="2" className="box-ink" />
+      <text x="110" y="264" className="lbl-inv">Cell</text>
+      <text x="110" y="282" className="lbl-sm" style={dim}>broom</text>
+      <text x="110" y="298" className="lbl-sm" style={dim}>and key</text>
+      <text x="192" y="254" className="lbl">Prison room</text>
+      <text x="192" y="276" className="lbl-sm">logbook clue,</text>
+      <text x="192" y="292" className="lbl-sm">number lock</text>
+      <rect x="300" y="232" width="206" height="86" rx="2" className="box" />
+      <text x="312" y="254" className="lbl">Storage room</text>
+      <text x="312" y="276" className="lbl-sm">stack crates up</text>
+      <text x="312" y="292" className="lbl-sm">to the hole above</text>
+      {/* Crates */}
+      <rect x="452" y="298" width="18" height="18" className="box" />
+      <rect x="470" y="298" width="18" height="18" className="box" />
+      <rect x="470" y="280" width="18" height="18" className="box" />
+
+      {/* Exit */}
+      <rect x="60" y="56" width="112" height="36" rx="2" className="box-accent" />
+      <text x="74" y="80" className="lbl-inv">Escaped</text>
+
+      {/* The way out */}
+      <g style={{ color: 'var(--color-ink)' }}>
+        <path d="M290 302 L314 302" className="line" markerEnd={m} />
+        <path d="M480 276 L480 196" className="line" markerEnd={m} />
+        <path d="M318 200 L262 200" className="line" markerEnd={m} />
+        <path d="M116 124 L116 92" className="line" markerEnd={m} />
+      </g>
+      <text x="486" y="208" className="lbl-sm">hole</text>
+
+      <rect x="20" y="342" width="560" height="24" rx="2" className="fill-zone" />
+      <text x="32" y="358" className="lbl-sm">Godot 4.2, XR Tools and Jolt physics. Models from Blender and free libraries.</text>
     </svg>
   )
 }
